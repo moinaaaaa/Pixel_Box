@@ -5,11 +5,11 @@ import subprocess
 import pyautogui
 import keyboard
 from PIL import Image, ImageTk
+from pathlib import Path
 
 #Pyinstaller Pixelbox.py
 
-
-testext: str = "In ROMS we trust."
+testext: str = "(i walk a lonely Rom)."
 blankspace: float = 10
 #emulators
 nesemu: str = "emulators/nestopia_1.52.0-win32/nestopia.exe"
@@ -21,8 +21,8 @@ ndsemu: str = "emulators/melonDS-windows-x86_64(1)/melonDS.exe"
 ps1emu: str = "emulators/duckstation-windows-x64-release/duckstation-qt-x64-ReleaseLTCG.exe"
 pspemu: str = "emulators/ppsspp_win/PPSSPPWindows64.exe"
 
+#lileastereggthing :)
 emu: str = "emulators/opensnake.exe"
-
 rompath: str = "./roms"
 rompathcoin: float = 0
 bgimage: str = "BG/black.jpg"
@@ -43,7 +43,15 @@ print("Welcome To Pixelbox")
 
 def execute(rom: str):
     # Run the emulator with the ROM file as an argument
-    subprocess.run([emu, rom])
+    emu_path = Path(emu)
+    if emu_path.is_file():
+        if rom == "":
+            print("no_rom")
+            pass
+        else:
+         subprocess.run([emu, rom])
+    else:
+        print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder.")
 
 def on_mouse_click(event):
     # Get the closest canvas item to the mouse click
@@ -66,11 +74,18 @@ def on_mouse_click(event):
 
 
 def print_roms():
+    print ("    ")
+    print ("rompath:")
+    print (rompath)
+    print("emulator:")
+    print (emu)
+    print("roms:")
     canvas.delete("rom")
     global blankspace
     for item in os.listdir(rompath):
         # Check if the item is a file
         if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav" or ".exe"):
+            print(item)
             blankspace += 20
             # Create a text item for each ROM and bind click
             text_id = canvas.create_text(402, 202 + blankspace, text=item, font=("Comic sans Ms", 12), fill="black",tags= "rom", )
@@ -91,7 +106,6 @@ def print_roms():
 
 
 def buildbackdrop():
-    print("backdrop built")
     background = Image.open(bgimage)
     fbg = ImageTk.PhotoImage(background)
     canvas.bg_image = fbg
@@ -112,27 +126,23 @@ def on_mouse_leave(event):
 
 
 def leftarrow():
-    print("left")
     global rompathcoin
     rompathcoin -= 1
     checkroms()
     buildbackdrop()
 
 def rightarrow():
-    print("right")
     global rompathcoin
     rompathcoin += 1
     checkroms()
     buildbackdrop()
 
 def uparrow():
-    print("up")
     global blankspace
     blankspace -= 60
     print_roms()
 
 def downarrow():
-    print("down")
     global blankspace
     print_roms()
 
