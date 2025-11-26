@@ -49,6 +49,7 @@ def execute(rom: str):
             print("no_rom")
             pass
         else:
+         
          subprocess.run([emu, rom])
     else:
         print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder.")

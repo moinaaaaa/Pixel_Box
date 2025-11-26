@@ -14,9 +14,11 @@ Again, as an example; if you make a cool drawing of a gba, the filename would Ne
 All of the art for this program has been made using GIMP.
 
 in case his wasnt clear enough:
-move through Systems with the arrow keys, klick with your mosue to choose a rom
+move through Systems with the arrow keys, klick with your mouse to choose a rom
+if you have a lot of roms you may need to move with the  up/down arrows to see all of them
+you can move the mouse using the wasd buttons and also press with the x button
 
-Big thanks to the creators of the Emulators used in this verion (in no particular order):
+Big thanks to the creators of the Emulators used in this version (in no particular order):
 
 mGBA - endrift (https://mgba.io)
 duckstation - stenzek (https://duckstation.org)
