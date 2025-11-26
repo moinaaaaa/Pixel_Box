@@ -28,4 +28,4 @@ nestopia - Kevin Harmon (https://nestopia.sourceforge.net)
 ppsspp - Henrik Rydgård (https://www.ppsspp.org)
 project64 - Zilmar, Shygoo, and Azimer (https://www.pj64-emu.com)
 
-beta / 0.3
+beta / 0.4
