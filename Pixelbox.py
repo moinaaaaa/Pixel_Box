@@ -41,7 +41,7 @@ canvas.create_text(403, 54, text=testext, font=("comic sans ms bold", 24), fill=
 
 print("Welcome To Pixelbox")
 
-def execute(emu: str, rom: str):
+def execute(rom: str):
     # Run the emulator with the ROM file as an argument
     subprocess.run([emu, rom])
 
@@ -55,30 +55,7 @@ def on_mouse_click(event):
 
         # Check the file extension
         _, file_extension = os.path.splitext(rom_name)
-        if file_extension == ".nes":
-            print(f"Running NES ROM: {rom_path}")
-            execute(nesemu, rom_path)
-        if file_extension == ".sfc":
-            print(f"Running SNES ROM: {rom_path}")
-            execute(snesemu, rom_path)
-        if file_extension == ".z64":
-            print(f"Running N64 ROM: {rom_path}")
-            execute(n64emu, rom_path)
-        if file_extension == ".gb" or file_extension == ".gbc" :
-            print(f"Runnning GBC ROM: {rom_path}")
-            execute(gbcemu, rom_path)
-        if file_extension == ".gba":
-            print(f"Running GBA ROM: {rom_path}")
-            execute(gbaemu, rom_path)
-        if file_extension == ".nds" :
-            print(f"Running NDS ROM: {rom_path}")
-            execute(ndsemu, rom_path)
-        if file_extension == ".chd" or file_extension == ".cue" or file_extension == ".iso" and rom_path == "./roms/ps1":
-            print(f"Running PS1 ROM: {rom_path}")
-            execute(ps1emu, rom_path)
-        if file_extension == ".iso" and rompath == "./roms/psp":
-            print(f"Running PSP ROM: {rom_path}")
-            execute(pspemu, rom_path)
+        execute(rom_path)
         if file_extension == "" :
             subprocess.run(emu)
         else: 
@@ -93,12 +70,13 @@ def print_roms():
     global blankspace
     for item in os.listdir(rompath):
         # Check if the item is a file
-        if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav"):
+        if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav" or ".exe"):
             blankspace += 20
-            # Create a text item for each ROM and bind the click event
+            # Create a text item for each ROM and bind click
             text_id = canvas.create_text(402, 202 + blankspace, text=item, font=("Comic sans Ms", 12), fill="black",tags= "rom", )
             canvas.tag_raise("rom")
             text_id = canvas.create_text(400, 200 + blankspace, text=item, font=("Comic sans Ms", 12), fill="white",tags= "rom", )
+
             canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
             canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
             canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
@@ -106,6 +84,7 @@ def print_roms():
     text_id = canvas.create_text(102, 542, text= "run emulator", font=("Comic sans Ms", 13), fill="black",tags= "ui", )
     canvas.tag_raise("ui")
     text_id = canvas.create_text(100, 540, text= "run emulator", font=("Comic sans Ms", 13), fill="white",tags= "ui", )
+
     canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
     canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
     canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
@@ -174,42 +153,42 @@ def checkroms():
     blankspace = 10
     
     if rompathcoin == 1 :
-        emu = "emulators/nestopia_1.52.0-win32/nestopia.exe"
+        emu = nesemu
         rompath = "./roms/nes"
         bgimage = "BG/temporary_nes_bg.png"
         print_roms()
     if rompathcoin == 2:
-        emu = "emulators/bsnes-nightly/bsnes.exe"
+        emu = snesemu
         rompath = "./roms/snes"
         bgimage = "BG/temporary_snes_bg.png"
         print_roms()
     if rompathcoin == 3:
-        emu = "emulators/Project64-3.0.1-5664-2df3434/Project64.exe"
+        emu = n64emu
         rompath = "./roms/n64"
         bgimage = "BG/temporary_n64_bg.png"
         print_roms()
     if rompathcoin == 4:
-        emu = "emulators/mGBA-0.10.5-win64/mGBA.exe"
+        emu = gbaemu
         rompath = "./roms/gb+gbc"
         bgimage = "BG/temporary_gb_bg.png"
         print_roms()
     if rompathcoin == 5 :  
-        emu = "emulators/mGBA-0.10.5-win64/mGBA.exe"
+        emu = gbaemu
         rompath = "./roms/gba"
         bgimage = "BG/temporary_gba_bg.png"
         print_roms()
     if rompathcoin == 6 :  
-        emu = "emulators/melonDS-windows-x86_64(1)/melonDS.exe"
+        emu = ndsemu
         rompath = "./roms/nds"
         bgimage = "BG/temporary_nds_bg.png"
         print_roms()
     if rompathcoin == 7 :  
-        emu = "emulators/duckstation-windows-x64-release/duckstation-qt-x64-ReleaseLTCG.exe"
+        emu = ps1emu
         rompath = "./roms/ps1"
         bgimage = "BG/temporary_ps1_bg.jpg"
         print_roms()
     if rompathcoin == 8 :  
-        emu = "emulators/ppsspp_win/PPSSPPWindows64.exe"
+        emu = pspemu
         rompath = "./roms/psp"
         bgimage = "BG/temporary_psp_bg.jpg"
         print_roms()
