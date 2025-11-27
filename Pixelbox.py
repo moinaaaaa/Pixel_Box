@@ -10,6 +10,8 @@ from pathlib import Path
 #Pyinstaller Pixelbox.py
 
 testext: str = "(i walk a lonely Rom)."
+
+emptyspace: float = 0
 blankspace: float = 10
 #emulators
 nesemu: str = "emulators/nestopia_1.52.0-win32/nestopia.exe"
@@ -79,15 +81,16 @@ def print_roms():
     print("roms:")
     canvas.delete("rom")
     global blankspace
+    blankspace = 20
     for item in os.listdir(rompath):
         # Check if the item is a file
         if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav") or item.endswith(".exe"):
             print(item)
-            blankspace += 20
+            blankspace += 20 
             # Create a text item for each ROM and bind click
-            text_id = canvas.create_text(402, 202 + blankspace, text=item, font=("Comic sans Ms", 12), fill="black",tags= "rom", )
+            text_id = canvas.create_text(402, 202 + blankspace + emptyspace, text=item, font=("Comic sans Ms", 12), fill="black",tags= "rom", )
             canvas.tag_raise("rom")
-            text_id = canvas.create_text(400, 200 + blankspace, text=item, font=("Comic sans Ms", 12), fill="white",tags= "rom", )
+            text_id = canvas.create_text(400, 200 + blankspace + emptyspace, text=item, font=("Comic sans Ms", 12), fill="white",tags= "rom", )
 
             canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
             canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
@@ -135,12 +138,13 @@ def rightarrow():
     buildbackdrop()
 
 def uparrow():
-    global blankspace
-    blankspace -= 60
+    global emptyspace
+    emptyspace -= 20
     print_roms()
 
 def downarrow():
-    global blankspace
+    global emptyspace
+    emptyspace += 20
     print_roms()
 
 #1 gba 2 psp 3gb 4 gbc
