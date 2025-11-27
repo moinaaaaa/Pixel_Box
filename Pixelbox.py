@@ -46,10 +46,8 @@ def execute(rom: str):
     emu_path = Path(emu)
     if emu_path.is_file():
         if rom == "":
-            print("no_rom")
-            pass
+            print("no rom")
         else:
-         
          subprocess.run([emu, rom])
     else:
         print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder.")
@@ -67,9 +65,7 @@ def on_mouse_click(event):
         execute(rom_path)
         if file_extension == "" :
             subprocess.run(emu)
-        else: 
-            print(f"running absolutely nothing")
-            print(f"Unsupported file type: {file_extension}")
+            
 
 
 
@@ -85,7 +81,7 @@ def print_roms():
     global blankspace
     for item in os.listdir(rompath):
         # Check if the item is a file
-        if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav" or ".exe"):
+        if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav") or item.endswith(".exe"):
             print(item)
             blankspace += 20
             # Create a text item for each ROM and bind click
