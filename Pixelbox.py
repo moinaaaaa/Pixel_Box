@@ -52,7 +52,7 @@ def execute(rom: str):
         else:
          subprocess.run([emu, rom])
     else:
-        print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder.")
+        print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder; if you do not find an emulators folder, (although you should have one) just make sure you create a folder named [emulators] and put your emulator there.")
 
 def on_mouse_click(event):
     # Get the closest canvas item to the mouse click
@@ -72,13 +72,14 @@ def on_mouse_click(event):
 
 
 
-def print_roms():
-    print ("    ")
-    print ("rompath:")
-    print (rompath)
-    print("emulator:")
-    print (emu)
-    print("roms:")
+def print_roms(printr : bool):
+    if printr:
+        print ("    ")
+        print ("rompath:")
+        print (rompath)
+        print("emulator:")
+        print (emu)
+        print("roms:")
     canvas.delete("rom")
     global blankspace
     blankspace = 20
@@ -106,6 +107,7 @@ def print_roms():
 
 
 def buildbackdrop():
+    canvas.delete
     background = Image.open(bgimage)
     fbg = ImageTk.PhotoImage(background)
     canvas.bg_image = fbg
@@ -140,12 +142,12 @@ def rightarrow():
 def uparrow():
     global emptyspace
     emptyspace -= 20
-    print_roms()
+    print_roms(False)
 
 def downarrow():
     global emptyspace
     emptyspace += 20
-    print_roms()
+    print_roms(False)
 
 #1 gba 2 psp 3gb 4 gbc
 def checkroms():
@@ -167,42 +169,35 @@ def checkroms():
         emu = nesemu
         rompath = "./roms/nes"
         bgimage = "BG/temporary_nes_bg.png"
-        print_roms()
     if rompathcoin == 2:
         emu = snesemu
         rompath = "./roms/snes"
         bgimage = "BG/temporary_snes_bg.png"
-        print_roms()
     if rompathcoin == 3:
         emu = n64emu
         rompath = "./roms/n64"
         bgimage = "BG/temporary_n64_bg.png"
-        print_roms()
     if rompathcoin == 4:
         emu = gbaemu
         rompath = "./roms/gb+gbc"
         bgimage = "BG/temporary_gb_bg.png"
-        print_roms()
     if rompathcoin == 5 :  
         emu = gbaemu
         rompath = "./roms/gba"
         bgimage = "BG/temporary_gba_bg.png"
-        print_roms()
     if rompathcoin == 6 :  
         emu = ndsemu
         rompath = "./roms/nds"
         bgimage = "BG/temporary_nds_bg.png"
-        print_roms()
     if rompathcoin == 7 :  
         emu = ps1emu
         rompath = "./roms/ps1"
         bgimage = "BG/temporary_ps1_bg.jpg"
-        print_roms()
     if rompathcoin == 8 :  
         emu = pspemu
         rompath = "./roms/psp"
         bgimage = "BG/temporary_psp_bg.jpg"
-        print_roms()
+    print_roms(True)
 
 #Mouse Overdrive
 def M_up():
@@ -216,7 +211,8 @@ def M_right():
 
 
 
-#lr
+#bindings
+root.bind("<MouseWheel>", lambda e: leftarrow() if e.delta > 0 else rightarrow())
 keyboard.add_hotkey("x", pyautogui.click)
 keyboard.add_hotkey("w", M_up)
 keyboard.add_hotkey("s", M_down)
@@ -227,10 +223,6 @@ keyboard.add_hotkey("right", rightarrow)
 keyboard.add_hotkey("up", uparrow)
 keyboard.add_hotkey("down", downarrow)
 
-
-
-
-
-print_roms()
+print_roms(False)
 
 root.mainloop()
