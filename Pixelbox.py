@@ -29,6 +29,29 @@ rompath: str = "./roms"
 rompathcoin: float = 0
 bgimage: str = "BG/black.jpg"
 
+#left_right arrows
+lr_text="""
+                    /$$   
+                    |  $$  
+                    \  $$ 
+ /$$$$$$\  $$
+|______/ /$$/
+                    /$$/ 
+                /$$/  
+                |__/   
+"""
+
+la_text="""
+   $$\       
+  $$  |      
+ $$  /       
+$$  /$$$$$$\ 
+\$$< \______|
+ \$$\        
+  \$$\       
+   \__|          
+"""
+
 # viewport
 root = tk.Tk()
 root.title("PixelBox")
@@ -41,16 +64,26 @@ canvas.pack()
 canvas.create_text(400, 50, text=testext, font=("comic sans ms bold", 24), fill="black")
 canvas.create_text(403, 54, text=testext, font=("comic sans ms bold", 24), fill="white")
 
-print("Welcome To Pixelbox")
-
+print("""                                                                        
+                                                                                                                                     
+▄     ▄        ▀▀█                                      ▄▄▄▄▄▄▄               ▄▄▄▄▄    ▀                  ▀▀█    ▄▄▄▄▄               
+█  █  █  ▄▄▄     █     ▄▄▄    ▄▄▄   ▄▄▄▄▄   ▄▄▄            █     ▄▄▄          █   ▀█ ▄▄▄    ▄   ▄   ▄▄▄     █    █    █  ▄▄▄   ▄   ▄ 
+▀ █▀█ █ █▀  █    █    █▀  ▀  █▀ ▀█  █ █ █  █▀  █           █    █▀ ▀█         █▄▄▄█▀   █     █▄█   █▀  █    █    █▄▄▄▄▀ █▀ ▀█   █▄█  
+ ██ ██▀ █▀▀▀▀    █    █      █   █  █ █ █  █▀▀▀▀           █    █   █         █        █     ▄█▄   █▀▀▀▀    █    █    █ █   █   ▄█▄  
+ █   █  ▀█▄▄▀    ▀▄▄  ▀█▄▄▀  ▀█▄█▀  █ █ █  ▀█▄▄▀           █    ▀█▄█▀         █      ▄▄█▄▄  ▄▀ ▀▄  ▀█▄▄▀    ▀▄▄  █▄▄▄▄▀ ▀█▄█▀  ▄▀ ▀▄ 
+                                                                                                                                     
+      by Moina, with love :)
+                    """)
 def execute(rom: str):
     # Run the emulator with the ROM file as an argument
     emu_path = Path(emu)
     if emu_path.is_file():
         if rom == "":
             print("no rom")
-        else:
-         subprocess.run([emu, rom])
+        elif canvas.find_withtag("rom"):
+            subprocess.run([emu, rom])
+        else: 
+            print("error : tried to run the emulator with the rom as argument on an itm which isnt a rompath")
     else:
         print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder; if you do not find an emulators folder, (although you should have one) just make sure you create a folder named [emulators] and put your emulator there.")
 
@@ -58,19 +91,22 @@ def on_mouse_click(event):
     # Get the closest canvas item to the mouse click
     clicked_item = canvas.find_closest(event.x, event.y)
     if clicked_item :
-        # Get the ROM name of the clicked item
-        rom_name = canvas.itemcget(clicked_item[0], "text")
-        rom_path = os.path.join(rompath, rom_name) 
-
-        # Check the file extension
-        _, file_extension = os.path.splitext(rom_name)
-        execute(rom_path)
-        if file_extension == "" :
+        _tags = canvas.gettags(clicked_item)
+        if "rom" in _tags :
+            # Get the ROM name of the clicked item
+            rom_name = canvas.itemcget(clicked_item[0], "text")
+            rom_path = os.path.join(rompath, rom_name) 
+            if rom_path:
+                _, file_extension = os.path.splitext(rom_name)
+                execute(rom_path)
+        elif "run_emu" in _tags:
             subprocess.run(emu)
+        else:
+            if "LR" in _tags:
+                rightarrow()
+            elif "LA" in _tags:
+                leftarrow()
             
-
-
-
 
 def print_roms(printr : bool):
     if printr:
@@ -86,7 +122,8 @@ def print_roms(printr : bool):
     for item in os.listdir(rompath):
         # Check if the item is a file
         if os.path.isfile(os.path.join(rompath, item)) and not item.endswith(".sav") or item.endswith(".exe"):
-            print(item)
+            if printr:
+                print(item)
             blankspace += 20 
             # Create a text item for each ROM and bind click
             text_id = canvas.create_text(402, 202 + blankspace + emptyspace, text=item, font=("Comic sans Ms", 12), fill="black",tags= "rom", )
@@ -97,9 +134,9 @@ def print_roms(printr : bool):
             canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
             canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
     
-    text_id = canvas.create_text(102, 542, text= "run emulator", font=("Comic sans Ms", 13), fill="black",tags= "ui", )
+    text_id = canvas.create_text(102, 542, text= "run emulator", font=("Comic sans Ms", 13), fill="black",tags= "run_emu", )
     canvas.tag_raise("ui")
-    text_id = canvas.create_text(100, 540, text= "run emulator", font=("Comic sans Ms", 13), fill="white",tags= "ui", )
+    text_id = canvas.create_text(100, 540, text= "run emulator", font=("Comic sans Ms", 13), fill="white",tags= "run_emu", )
 
     canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
     canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
@@ -199,6 +236,22 @@ def checkroms():
         bgimage = "BG/temporary_psp_bg.jpg"
     print_roms(True)
 
+def draw_arrows():
+    text_id = canvas.create_text(62, 202 + blankspace + emptyspace, text = la_text, font=("Comic sans Ms", 6), fill="black",tags= "LA", )
+    text_id = canvas.tag_raise("rom")
+    text_id = canvas.create_text(60, 200 + blankspace + emptyspace, text = la_text, font=("Comic sans Ms", 6), fill="white",tags= "LA", )
+
+    canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
+    canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
+    canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
+
+    text_id = canvas.create_text(750, 202 + blankspace + emptyspace, text = lr_text, font=("Comic sans Ms", 6), fill="black",tags= "LR", )
+    text_id = canvas.tag_raise("rom")
+    text_id = canvas.create_text(748, 200 + blankspace + emptyspace, text = lr_text, font=("Comic sans Ms", 6), fill="white",tags= "LR", )
+
+    canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
+    canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
+    canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
 #Mouse Overdrive
 def M_up():
     pyautogui.move(+0, -20, duration=0.2) 
@@ -212,7 +265,7 @@ def M_right():
 
 
 #bindings
-root.bind("<MouseWheel>", lambda e: leftarrow() if e.delta > 0 else rightarrow())
+root.bind("<MouseWheel>", lambda e: uparrow() if e.delta > 0 else downarrow())
 keyboard.add_hotkey("x", pyautogui.click)
 keyboard.add_hotkey("w", M_up)
 keyboard.add_hotkey("s", M_down)
@@ -224,5 +277,6 @@ keyboard.add_hotkey("up", uparrow)
 keyboard.add_hotkey("down", downarrow)
 
 print_roms(False)
+draw_arrows()
 
 root.mainloop()
