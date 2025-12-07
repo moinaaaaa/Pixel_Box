@@ -1,0 +1,7 @@
+"emulators/nestopia_1.52.0-win32/nestopia.exe"
+"emulators/bsnes-nightly/bsnes.exe"
+"emulators/Project64-3.0.1-5664-2df3434/Project64.exe"
+"emulators/mGBA-0.10.5-win64/mGBA.exe" 
+"emulators/melonDS-windows-x86_64(1)/melonDS.exe"
+"emulators/duckstation-windows-x64-release/duckstation-qt-x64-ReleaseLTCG.exe"
+"emulators/ppsspp_win/PPSSPPWindows64.exe"

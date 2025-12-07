@@ -7,21 +7,22 @@ import keyboard
 from PIL import Image, ImageTk
 from pathlib import Path
 
-#Pyinstaller Pixelbox.py
 
-testext: str = "(i walk a lonely Rom)."
+#pyinstaller Pixelbox.py
+
+
+testext: str = "Around the Rom around the Roooom."
 
 emptyspace: float = 0
 blankspace: float = 10
 #emulators
-nesemu: str = "emulators/nestopia_1.52.0-win32/nestopia.exe"
-snesemu: str = "emulators/bsnes-nightly/bsnes.exe"
-n64emu: str = "emulators/Project64-3.0.1-5664-2df3434/Project64.exe"
-gbcemu: str = "emulators/mGBA-0.10.5-win64/mGBA.exe"
-gbaemu: str = "emulators\\mGBA-0.10.5-win64\\mGBA.exe" 
-ndsemu: str = "emulators/melonDS-windows-x86_64(1)/melonDS.exe"
-ps1emu: str = "emulators/duckstation-windows-x64-release/duckstation-qt-x64-ReleaseLTCG.exe"
-pspemu: str = "emulators/ppsspp_win/PPSSPPWindows64.exe"
+nesemu: str 
+snesemu: str 
+n64emu: str 
+gbaemu: str 
+ndsemu: str 
+ps1emu: str 
+pspemu: str 
 
 #lileastereggthing :)
 emu: str = "emulators/opensnake.exe"
@@ -74,6 +75,31 @@ print("""
                                                                                                                                      
       by Moina, with love :)
                     """)
+
+#edit paths in the config file
+def get_rompaths():
+    global nesemu
+    global snesemu
+    global n64emu
+    global gbaemu
+    global ndsemu
+    global ps1emu
+    global pspemu
+    print("Current Emulators:")
+    with open("Config.txt", 'r') as file:
+        pathstoemu = file.read().splitlines()
+        for pathstoemu in pathstoemu :
+            print(pathstoemu)
+        nesemu = pathstoemu[0]
+        snesemu = pathstoemu[1]
+        n64emu = pathstoemu[2]
+        gbaemu = pathstoemu[3]
+        ndsemu = pathstoemu[4]
+        ps1emu = pathstoemu[5]
+        pspemu = pathstoemu[6]
+
+get_rompaths()
+
 def execute(rom: str):
     # Run the emulator with the ROM file as an argument
     emu_path = Path(emu)
@@ -83,7 +109,7 @@ def execute(rom: str):
         elif canvas.find_withtag("rom"):
             subprocess.run([emu, rom])
         else: 
-            print("error : tried to run the emulator with the rom as argument on an itm which isnt a rompath")
+            print("error : tried to run the emulator with the rom as argument on an item which isnt a rompath")
     else:
         print("The required emulator,(" + str(emu) + ") to play this system, isnt installed. download the Emulator at: https://moina3.itch.io/pixelbox and place it in the emulators folder; if you do not find an emulators folder, (although you should have one) just make sure you create a folder named [emulators] and put your emulator there.")
 
@@ -113,8 +139,6 @@ def print_roms(printr : bool):
         print ("    ")
         print ("rompath:")
         print (rompath)
-        print("emulator:")
-        print (emu)
         print("roms:")
     canvas.delete("rom")
     global blankspace
@@ -134,8 +158,7 @@ def print_roms(printr : bool):
             canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
             canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
     
-    text_id = canvas.create_text(102, 542, text= "run emulator", font=("Comic sans Ms", 13), fill="black",tags= "run_emu", )
-    canvas.tag_raise("ui")
+    text_id = canvas.create_text(102, 542, text= "run emulator", font=("Comic sans Ms", 13), fill="black",tags= "run emu background", )
     text_id = canvas.create_text(100, 540, text= "run emulator", font=("Comic sans Ms", 13), fill="white",tags= "run_emu", )
 
     canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
@@ -144,7 +167,7 @@ def print_roms(printr : bool):
 
 
 def buildbackdrop():
-    canvas.delete
+    canvas.delete("bg_id")
     background = Image.open(bgimage)
     fbg = ImageTk.PhotoImage(background)
     canvas.bg_image = fbg
