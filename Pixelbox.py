@@ -88,8 +88,6 @@ def get_rompaths():
     print("Current Emulators:")
     with open("Config.txt", 'r') as file:
         pathstoemu = file.read().splitlines()
-        for pathstoemu in pathstoemu :
-            print(pathstoemu)
         nesemu = pathstoemu[0]
         snesemu = pathstoemu[1]
         n64emu = pathstoemu[2]
@@ -97,6 +95,9 @@ def get_rompaths():
         ndsemu = pathstoemu[4]
         ps1emu = pathstoemu[5]
         pspemu = pathstoemu[6]
+        
+        for pathstoemu in pathstoemu :
+            print(pathstoemu)
 
 get_rompaths()
 

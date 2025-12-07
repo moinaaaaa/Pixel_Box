@@ -1,15 +1,30 @@
 Thanks for downloading Pixelbox!
 
 Pixelbox is a front end program that uses other Emulators to give the user a friendly and easy to understand experience.
+PixelBox is also of course non profit, this product is free and opensource and doesn't endorse piracy,
 
 i aimed to use Freeware and Opensource Emulation, Should the devolper of any of These Emulators be unhappy with his Emulator being used in this frontend, they can contact me on Itch.io
 
-I do not endorse Piracy in any way or form, should you use an illegally aquired Rom, the responsability is yours.
+I do not endorse Piracy in any way or form, should you use an illegally acquired Rom, the responsibility is yours.
+this goes for roms as well as Bios files and programs.
 
 Now, to use Pixelbox; Simply Put your legally acquired roms in their respective Folder, i.e "super_cool_gba_game.gba" would go in root./roms/gba.
-You can Change the Backgrounds as you like, just Keep in mind they Need to be 800x600 in order to fit, and they also recquire their Name to be exact.
-
+You can Change the Backgrounds as you like, just Keep in mind they Need to be 800x600 in order to fit, and they also require their Name to be exact.
 Again, as an example; if you make a cool drawing of a gba, the filename would Need to be temporary_gba_bg.png
+
+#The config file
+There is a configuration file (Config.txt) which you can use to assign your own emulators to Pixelbox.
+If you aren't the most techsavyy then i recommend you dont touch it, but it is simple to work with so you shouldn't really have trouble with that.
+simply copy the relative or absolute path to the binary of your emulator, and paste it in the correct line
+The lines are:
+
+1nes
+2snes
+3n64
+4gbc+gba (we used mgba, which supports both gbc and gba,)
+5nds
+6ps1
+7psp
 
 All of the art for this program has been made using GIMP.
 
@@ -28,4 +43,4 @@ nestopia - Kevin Harmon (https://nestopia.sourceforge.net)
 ppsspp - Henrik Rydgård (https://www.ppsspp.org)
 project64 - Zilmar, Shygoo, and Azimer (https://www.pj64-emu.com)
 
-beta / 0.4
+beta / 0.7
