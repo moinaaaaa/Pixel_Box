@@ -16,13 +16,13 @@ testext: str = "Around the Rom around the Roooom."
 emptyspace: float = 0
 blankspace: float = 10
 #emulators
-nesemu: str 
-snesemu: str 
-n64emu: str 
-gbaemu: str 
-ndsemu: str 
-ps1emu: str 
-pspemu: str 
+nesemu: str = ""
+snesemu: str = ""
+n64emu: str = ""
+gbaemu: str = ""
+ndsemu: str = ""
+ps1emu: str = ""
+pspemu: str = ""
 
 #lileastereggthing :)
 emu: str = "emulators/opensnake.exe"
@@ -65,16 +65,15 @@ canvas.pack()
 canvas.create_text(400, 50, text=testext, font=("comic sans ms bold", 24), fill="black")
 canvas.create_text(403, 54, text=testext, font=("comic sans ms bold", 24), fill="white")
 
-print("""                                                                        
+print("""\033[33m                                                                       
                                                                                                                                      
-▄     ▄        ▀▀█                                      ▄▄▄▄▄▄▄               ▄▄▄▄▄    ▀                  ▀▀█    ▄▄▄▄▄               
-█  █  █  ▄▄▄     █     ▄▄▄    ▄▄▄   ▄▄▄▄▄   ▄▄▄            █     ▄▄▄          █   ▀█ ▄▄▄    ▄   ▄   ▄▄▄     █    █    █  ▄▄▄   ▄   ▄ 
-▀ █▀█ █ █▀  █    █    █▀  ▀  █▀ ▀█  █ █ █  █▀  █           █    █▀ ▀█         █▄▄▄█▀   █     █▄█   █▀  █    █    █▄▄▄▄▀ █▀ ▀█   █▄█  
- ██ ██▀ █▀▀▀▀    █    █      █   █  █ █ █  █▀▀▀▀           █    █   █         █        █     ▄█▄   █▀▀▀▀    █    █    █ █   █   ▄█▄  
- █   █  ▀█▄▄▀    ▀▄▄  ▀█▄▄▀  ▀█▄█▀  █ █ █  ▀█▄▄▀           █    ▀█▄█▀         █      ▄▄█▄▄  ▄▀ ▀▄  ▀█▄▄▀    ▀▄▄  █▄▄▄▄▀ ▀█▄█▀  ▄▀ ▀▄ 
+_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    ___  _ _  _ ____ _    ___  ____ _  _ 
+| | | |___ |    |    |  | |\/| |___     |  |  |    |__] |  \/  |___ |    |__] |  |  \/  
+|_|_| |___ |___ |___ |__| |  | |___     |  |__|    |    | _/\_ |___ |___ |__] |__| _/\_ 
+                                                                                        
                                                                                                                                      
       by Moina, with love :)
-                    """)
+                    \033[0m""")
 
 #edit paths in the config file
 def get_rompaths():
@@ -97,17 +96,21 @@ def get_rompaths():
         pspemu = pathstoemu[6]
         
         for pathstoemu in pathstoemu :
-            print(pathstoemu)
+            print("\033[32m" + pathstoemu + "\033[0m")
 
 get_rompaths()
 
 def execute(rom: str):
+    #Get absolute paths to the rom and emu
+    emu_path = os.path.join(os.path.dirname(__file__), emu)
+    rom_path = os.path.abspath(rom)
     # Run the emulator with the ROM file as an argument
     emu_path = Path(emu)
-    if emu_path.is_file():
+    if not emu_path == "" :
         if rom == "":
             print("no rom")
         elif canvas.find_withtag("rom"):
+            print("running: " + emu + " with: " + rom)
             subprocess.run([emu, rom])
         else: 
             print("error : tried to run the emulator with the rom as argument on an item which isnt a rompath")
@@ -276,25 +279,9 @@ def draw_arrows():
     canvas.tag_bind(text_id, "<Button-1>", on_mouse_click)
     canvas.tag_bind(text_id, "<Enter>", on_mouse_hover)
     canvas.tag_bind(text_id, "<Leave>", on_mouse_leave)
-#Mouse Overdrive
-def M_up():
-    pyautogui.move(+0, -20, duration=0.2) 
-def M_down():
-    pyautogui.move(+0, +20, duration=0.2) 
-def M_left():
-    pyautogui.move(-60, 0, duration=0.2) 
-def M_right():
-    pyautogui.move(+60, 0, duration=0.2) 
-
-
 
 #bindings
 root.bind("<MouseWheel>", lambda e: uparrow() if e.delta > 0 else downarrow())
-keyboard.add_hotkey("x", pyautogui.click)
-keyboard.add_hotkey("w", M_up)
-keyboard.add_hotkey("s", M_down)
-keyboard.add_hotkey("a", M_left)
-keyboard.add_hotkey("d", M_right)
 keyboard.add_hotkey("left", leftarrow)
 keyboard.add_hotkey("right", rightarrow)
 keyboard.add_hotkey("up", uparrow)

@@ -342,6 +342,8 @@
                 <locked>no</locked>
             </directories>
             <files>
+                <file>./roms/nes\Super Mario Bros. 2 (Europe) - Copy.nes</file>
+                <file>./roms/nes\Super Mario Bros. 2 (Europe) - Copy (3).nes</file>
                 <file>./roms/nes\Final Fantasy II (USA) (Proto).nes</file>
                 <file>./roms/nes\Super Mario Bros. 2 (Europe).nes</file>
                 <locked>no</locked>
